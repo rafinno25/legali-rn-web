@@ -54,6 +54,7 @@ const FEATURE_BUTTONS: FeatureButton[] = [
     icon: <Ionicons name="cash-outline" size={20} color="#10B981" />,
     label: "Fund Your Litigation",
     color: "rgba(240, 253, 244, 0.9)",
+    route: "/crowdfunding-waiver",
   },
 ];
 

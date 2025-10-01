@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import {
     CircleCheckBig,
@@ -76,9 +77,14 @@ export default function EFileCourtScreen() {
           {/* Legali EFSP Partner Card */}
           <View style={styles.efspCard}>
             <View style={styles.efspHeader}>
-              <View style={styles.efspIcon}>
+              <LinearGradient
+                colors={['#10b981', '#0d9488']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.efspIcon}
+              >
                 <Shield size={28} color="white" />
-              </View>
+              </LinearGradient>
               <View style={{ flex: 1 }}>
                 <Text style={styles.efspTitle}>
                   Legali EFSP Partner
@@ -268,7 +274,6 @@ const styles = StyleSheet.create({
   efspIcon: {
     width: 48,
     height: 48,
-    backgroundColor: '#10b981',
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',

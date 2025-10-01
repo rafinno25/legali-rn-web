@@ -28,7 +28,7 @@ export function OnboardingWelcome() {
   const [inputText, setInputText] = useState("");
 
   const handleSendMessage = () => {
-    router.push("/onboarding");
+    // router.push("/onboarding");
   };
 
   return (

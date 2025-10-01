@@ -26,16 +26,14 @@ interface Message {
 
 const initialAIMessage: Message = {
   id: "1",
-  text: "Hi! I'm your AI legal assistant. I'll help match you with the perfect lawyer for your case. Could you tell me what legal issue you're facing?",
+  text: "Welcome back! I see you uploaded 4 documents last week about your employment situation at TechCorp—including your employment contract, termination letter, and email exchanges with HR. I've been monitoring your case and noticed some developments. Is this about the same employment matter, or are you dealing with something new?",
   isAI: true,
   timestamp: new Date(),
 };
 
 const mockAIResponses = [
-  "Thank you for sharing that. To help me find the best lawyer for you, could you provide more details about your situation?",
-  "I understand. That sounds like a [case type] matter. Have you already taken any legal action, or is this a new situation?",
-  "Got it. Based on what you've told me, I can connect you with lawyers who specialize in this area. Do you have any documents related to this case you'd like to share?",
-  "Perfect! I'm analyzing your case details now. Based on your situation, I've found several qualified lawyers who can help. Let me show you the best matches...",
+  "Got it. I've been tracking your case since our last conversation. Here's what's changed: the 45-day deadline to file your wrongful termination claim is now 28 days away, and based on the documents you uploaded, I've identified 3 new supporting evidence points in your email thread that strengthen your retaliation claim. I've also cross-referenced your non-compete clause against recent California rulings—2 precedents work in your favor.\n\nI've compiled everything into a comprehensive brief: your contract analysis, the HR policy violations I flagged, your documented timeline of events, and 5 actionable legal strategies. I've shared this with 3 employment specialists in your area who've already reviewed your complete file. They're ready to advise on immediate next steps. Would you like to connect with one of them now?",
+  "Perfect. Based on your specific situation—wrongful termination + retaliation claim + that problematic non-compete—I've matched you with 3 specialists who have the strongest track records for cases exactly like yours. Let me show you the best matches...",
 ];
 
 export default function AIIntakeScreen() {
@@ -70,7 +68,7 @@ export default function AIIntakeScreen() {
         const nextStep = conversationStep + 1;
         const aiResponse: Message = {
           id: (Date.now() + 1).toString(),
-          text: mockAIResponses[Math.min(nextStep, mockAIResponses.length - 1)],
+          text: mockAIResponses[0], // First response: the long detailed analysis
           isAI: true,
           timestamp: new Date(),
         };
@@ -78,13 +76,13 @@ export default function AIIntakeScreen() {
         setMessages((prev) => [...prev, aiResponse]);
         setConversationStep(nextStep);
 
-        // After the first AI response, add hardcoded user response and final AI message
+        // After the first AI response (the long one), add hardcoded user response and final AI message
         if (nextStep === 1) {
           setTimeout(() => {
             // Add hardcoded user response
             const hardcodedUserMessage: Message = {
               id: (Date.now() + 2).toString(),
-              text: "This is a new situation. I haven't taken any legal action yet, but I need guidance on how to proceed.",
+              text: "Yes.",
               isAI: false,
               timestamp: new Date(),
             };
@@ -96,7 +94,7 @@ export default function AIIntakeScreen() {
               setIsTyping(false);
               const finalAIMessage: Message = {
                 id: (Date.now() + 3).toString(),
-                text: "Perfect! I understand your situation. Based on what you've told me about your small claims case, I'm now matching you with qualified lawyers who specialize in this area. Let me show you the best matches...",
+                text: mockAIResponses[1],
                 isAI: true,
                 timestamp: new Date(),
               };
@@ -272,7 +270,7 @@ export default function AIIntakeScreen() {
             {/* Quick Action Suggestions - Shows only on first message */}
             {messages.length === 1 && (
               <View style={styles.quickActions}>
-                <Text style={styles.quickActionsTitle}>Common issues:</Text>
+                <Text style={styles.quickActionsTitle}>Quick responses:</Text>
                 <ScrollView
                   horizontal
                   showsHorizontalScrollIndicator={false}
@@ -280,27 +278,21 @@ export default function AIIntakeScreen() {
                 >
                   <Pressable
                     style={styles.quickChip}
-                    onPress={() => setInputText("I need help with a contract dispute")}
+                    onPress={() => setInputText("Yes, same matter. I need further legal advice and potentially, representation.")}
                   >
-                    <Text style={styles.quickChipText}>Contract dispute</Text>
+                    <Text style={styles.quickChipText}>Yes, same matter</Text>
                   </Pressable>
                   <Pressable
                     style={styles.quickChip}
-                    onPress={() => setInputText("I'm dealing with a small claims case")}
+                    onPress={() => setInputText("This is about something new")}
                   >
-                    <Text style={styles.quickChipText}>Small claims</Text>
+                    <Text style={styles.quickChipText}>Something new</Text>
                   </Pressable>
                   <Pressable
                     style={styles.quickChip}
-                    onPress={() => setInputText("I have a real estate issue")}
+                    onPress={() => setInputText("I want to review my case status")}
                   >
-                    <Text style={styles.quickChipText}>Real estate issue</Text>
-                  </Pressable>
-                  <Pressable
-                    style={styles.quickChip}
-                    onPress={() => setInputText("I need legal advice on employment matters")}
-                  >
-                    <Text style={styles.quickChipText}>Employment law</Text>
+                    <Text style={styles.quickChipText}>Review case status</Text>
                   </Pressable>
                 </ScrollView>
               </View>

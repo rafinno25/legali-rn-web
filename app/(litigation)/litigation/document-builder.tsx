@@ -154,9 +154,14 @@ export default function DocumentBuilderScreen() {
                                 onPress={() => handleDocumentTypeSelect(type.id)}
                             >
                                 {type.isRecommended && (
-                                    <View style={styles.recommendedBadge}>
+                                    <LinearGradient
+                                        colors={['#10b981', '#0d9488']}
+                                        start={{ x: 0, y: 0 }}
+                                        end={{ x: 1, y: 0 }}
+                                        style={styles.recommendedBadge}
+                                    >
                                         <Text style={styles.recommendedBadgeText}>Next</Text>
-                                    </View>
+                                    </LinearGradient>
                                 )}
                                 <Ionicons 
                                     name={type.icon as any} 
@@ -350,7 +355,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -8,
         right: -8,
-        backgroundColor: '#10B981',
         paddingHorizontal: 8,
         paddingVertical: 2,
         borderRadius: 12,

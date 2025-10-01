@@ -26,7 +26,8 @@ export default function MarketplaceScreen() {
 
   // Filter and sort lawyers
   const filteredLawyers = useMemo(() => {
-    let result = mockLawyers;
+    // Only show the 3 matched employment specialists
+    let result = mockLawyers.filter(lawyer => ["2", "4", "8"].includes(lawyer.id));
 
     // Apply search filter
     if (searchQuery) {

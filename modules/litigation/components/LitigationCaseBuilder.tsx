@@ -127,20 +127,27 @@ export function LitigationCaseBuilder() {
 
                 {/* Build Court Document Action Card */}
                 <View style={styles.actionCardContainer}>
-                    <TouchableOpacity style={styles.actionCard} onPress={handleBuildDocument}>
-                        <View style={styles.actionCardContent}>
-                            <View style={styles.actionCardLeft}>
-                                <View style={styles.actionIcon}>
-                                    <Ionicons name="sparkles" size={28} color="white" />
+                    <LinearGradient
+                        colors={['#10b981', '#0d9488']}
+                        start={{ x: 0, y: 0 }}
+                        end={{ x: 1, y: 0 }}
+                        style={styles.actionCard}
+                    >
+                        <TouchableOpacity style={styles.actionCardTouchable} onPress={handleBuildDocument}>
+                            <View style={styles.actionCardContent}>
+                                <View style={styles.actionCardLeft}>
+                                    <View style={styles.actionIcon}>
+                                        <Ionicons name="sparkles" size={28} color="white" />
+                                    </View>
+                                    <View style={styles.actionText}>
+                                        <Text style={styles.actionTitle}>Build Court Document</Text>
+                                        <Text style={styles.actionSubtitle}>AI-powered filing in minutes</Text>
+                                    </View>
                                 </View>
-                                <View style={styles.actionText}>
-                                    <Text style={styles.actionTitle}>Build Court Document</Text>
-                                    <Text style={styles.actionSubtitle}>AI-powered filing in minutes</Text>
-                                </View>
+                                <Ionicons name="chevron-forward" size={24} color="white" />
                             </View>
-                            <Ionicons name="chevron-forward" size={24} color="white" />
-                        </View>
-                    </TouchableOpacity>
+                        </TouchableOpacity>
+                    </LinearGradient>
                 </View>
 
                 {/* Summary Statistics */}
@@ -345,14 +352,15 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   actionCard: {
-    backgroundColor: '#10B981', // emerald-500
     borderRadius: 16,
-    padding: 20,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 4,
+  },
+  actionCardTouchable: {
+    padding: 20,
   },
   actionCardContent: {
     flexDirection: 'row',

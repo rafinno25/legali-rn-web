@@ -1,3 +1,4 @@
+import { LinearGradient } from 'expo-linear-gradient';
 import { router, useFocusEffect } from 'expo-router';
 import { AlertCircle, CheckCircle } from 'lucide-react-native';
 import React, { useCallback } from 'react';
@@ -42,9 +43,14 @@ export default function FilingSuccessScreen() {
         >
             <View style={styles.contentContainer}>
               {/* Success Icon */}
-              <View style={styles.successIcon}>
+              <LinearGradient
+                colors={['#10b981', '#0d9488']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 0 }}
+                style={styles.successIcon}
+              >
                 <CheckCircle size={56} color="white" strokeWidth={2} />
-              </View>
+              </LinearGradient>
 
               {/* Success Title */}
               <Text style={styles.successTitle}>
@@ -155,7 +161,6 @@ const styles = StyleSheet.create({
   successIcon: {
     width: 96,
     height: 96,
-    backgroundColor: '#10b981',
     borderRadius: 24,
     alignItems: 'center',
     justifyContent: 'center',

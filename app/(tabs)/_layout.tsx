@@ -1,9 +1,11 @@
 import Ionicons from "@expo/vector-icons/Ionicons";
 import React from "react";
-import { Alert, Animated, StyleSheet, TouchableOpacity } from "react-native";
+import { Animated, StyleSheet, TouchableOpacity } from "react-native";
 import { CurvedBottomBarExpo } from "react-native-curved-bottom-bar";
+import { LinearGradient } from "expo-linear-gradient";
+import { useRouter } from "expo-router";
 
-import SettingsScreen from "../settings";
+import ProfileScreen from "../profile";
 import HomeTab from "./index";
 
 const TAB_HEIGHT = 55;
@@ -27,52 +29,62 @@ const renderTabBar = ({ routeName, selectedTab, navigate }: { routeName: string;
 );
 
 export default function TabsLayout() {
+  const router = useRouter();
+
   return (
     <CurvedBottomBarExpo.Navigator
-      type="DOWN"
-      style={styles.bottomBar}
-      shadowStyle={styles.shadow}
-      height={TAB_HEIGHT}
-      circleWidth={CIRCLE_SIZE}
-      bgColor="#FFFFFF"
-      initialRouteName="home"
-      borderTopLeftRight
-      width={undefined}
-      borderColor="#E0E0E0"
-      borderWidth={0}
-      id="main-tab-navigator"
-      circlePosition="CENTER"
-      backBehavior="history"
-      screenListeners={{}}
-      screenOptions={{
-        headerShown: false,
-      }}
-      defaultScreenOptions={{
-        headerShown: false,
-      }}
-      renderCircle={({ navigate }: { navigate: (routeName: string) => void }) => (
-        <Animated.View style={styles.btnCircleUp}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => Alert.alert("Action", "Floating button tapped")}
-          >
-            <Ionicons name="apps-sharp" color="#7786A9" size={26} />
-          </TouchableOpacity>
-        </Animated.View>
-      )}
-      tabBar={renderTabBar}
-    >
-      <CurvedBottomBarExpo.Screen
-        name="home"
-        position="LEFT"
-        component={HomeTab}
-      />
-      <CurvedBottomBarExpo.Screen
-        name="settings"
-        position="RIGHT"
-        component={SettingsScreen}
-      />
-    </CurvedBottomBarExpo.Navigator>
+        type="DOWN"
+        style={styles.bottomBar}
+        shadowStyle={styles.shadow}
+        height={TAB_HEIGHT}
+        circleWidth={CIRCLE_SIZE}
+        bgColor="#FFFFFF"
+        initialRouteName="home"
+        borderTopLeftRight
+        width={undefined}
+        borderColor="#E0E0E0"
+        borderWidth={0}
+        id="main-tab-navigator"
+        circlePosition="CENTER"
+        backBehavior="history"
+        screenListeners={{}}
+        screenOptions={{
+          headerShown: false,
+        }}
+        defaultScreenOptions={{
+          headerShown: false,
+        }}
+        renderCircle={({ navigate }: { navigate: (routeName: string) => void }) => (
+          <Animated.View style={styles.btnCircleUp}>
+            <LinearGradient
+              colors={["#3FA7CC", "#5BB8D9"]}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={styles.gradientButton}
+            >
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => router.push('/litigation-101')}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="book-outline" color="#FFFFFF" size={28} />
+              </TouchableOpacity>
+            </LinearGradient>
+          </Animated.View>
+        )}
+        tabBar={renderTabBar}
+      >
+        <CurvedBottomBarExpo.Screen
+          name="home"
+          position="LEFT"
+          component={HomeTab}
+        />
+        <CurvedBottomBarExpo.Screen
+          name="profile"
+          position="RIGHT"
+          component={ProfileScreen}
+        />
+      </CurvedBottomBarExpo.Navigator>
   );
 }
 
@@ -98,13 +110,19 @@ const styles = StyleSheet.create({
     borderRadius: CIRCLE_SIZE / 2,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#F2F4FF",
     bottom: TAB_HEIGHT / 2,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4,
-    elevation: 4,
+    shadowColor: "#3FA7CC",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.4,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  gradientButton: {
+    width: CIRCLE_SIZE,
+    height: CIRCLE_SIZE,
+    borderRadius: CIRCLE_SIZE / 2,
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabbarItem: {
     flex: 1,
