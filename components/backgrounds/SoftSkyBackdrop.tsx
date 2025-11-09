@@ -1,5 +1,5 @@
 import { PropsWithChildren, useMemo } from "react";
-import { StyleSheet, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Svg, { Defs, RadialGradient, Rect, Stop } from "react-native-svg";
 
@@ -40,12 +40,14 @@ export function SoftSkyBackdrop({ children, style }: SoftSkyBackdropProps) {
     <View style={[styles.container, style]}>
       <LinearGradient colors={["#ECF6FF", "#F7FAFF"]} style={StyleSheet.absoluteFillObject} />
 
-      <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
-        <RadialGlow id="top-center" width={420} height={420} style={styles.ellipseTopCenter} />
-        <RadialGlow id="left" width={380} height={380} style={styles.ellipseTopLeft} />
-        <RadialGlow id="right" width={380} height={380} style={styles.ellipseTopRight} />
-        <RadialGlow id="stripe" width={960} height={260} style={styles.glowStripe} color="rgba(190, 230, 255, 0.55)" />
-      </View>
+      {Platform.OS !== "web" && (
+        <View pointerEvents="none" style={StyleSheet.absoluteFillObject}>
+          <RadialGlow id="top-center" width={420} height={420} style={styles.ellipseTopCenter} />
+          <RadialGlow id="left" width={380} height={380} style={styles.ellipseTopLeft} />
+          <RadialGlow id="right" width={380} height={380} style={styles.ellipseTopRight} />
+          <RadialGlow id="stripe" width={960} height={260} style={styles.glowStripe} color="rgba(190, 230, 255, 0.55)" />
+        </View>
+      )}
 
       {children}
     </View>

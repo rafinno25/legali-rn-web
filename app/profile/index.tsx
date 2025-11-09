@@ -98,13 +98,6 @@ export default function ProfileScreen() {
             </View>
 
             <View style={styles.fieldGroup}>
-              <Text style={styles.fieldLabel}>DoB</Text>
-              <View style={styles.fieldInput}>
-                <Text style={styles.fieldValue}>{MOCK_USER.dateOfBirth}</Text>
-              </View>
-            </View>
-
-            <View style={styles.fieldGroup}>
               <Text style={styles.fieldLabel}>Subscription Type</Text>
               <View style={styles.fieldInput}>
                 <Text style={styles.fieldValue}>{MOCK_USER.subscriptionType}</Text>

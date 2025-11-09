@@ -12,6 +12,9 @@ import {
     View,
     type ViewStyle,
 } from "react-native";
+import { useState } from "react";
+import { useAuth } from "@/contexts/AuthProvider";
+import { signIn } from "@/services/auth.service";
 
 const AUTH_GRADIENT = ["#7CC9E6", "#E7F8FF", "#7CC9E6"] as const;
 
@@ -21,13 +24,52 @@ interface SignInFormProps {
 
 export function SignInForm({ onSignIn }: SignInFormProps) {
   const router = useRouter();
+  const { login } = useAuth();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleSignIn = () => {
-    if (onSignIn) {
-      onSignIn();
-    } else {
-      router.push("/auth/terms-agreement");
+    setError(null);
+    // Basic validation aligned with web: non-empty, password >= 6
+    if (!email.trim()) {
+      setError("Email is required");
+      return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("Please enter a valid email address");
+      return;
+    }
+    if (password.trim().length < 6) {
+      setError("Password must be at least 6 characters");
+      return;
+    }
+
+    const exec = async () => {
+      try {
+        setLoading(true);
+        const data = await signIn({ email: email.trim(), password: password });
+        await login({ access_token: data.access_token, refresh_token: data.refresh_token, user: {
+          id: data.user.id,
+          email: data.user.email,
+          first_name: (data as any).user.firstname ?? "",
+          last_name: (data as any).user.lastname ?? "",
+          profile_picture_url: null,
+          city_id: null,
+        } });
+        if (onSignIn) {
+          onSignIn();
+        } else {
+          router.replace("/(chats)");
+        }
+      } catch (e: any) {
+        setError(e?.message ?? "Failed to sign in");
+      } finally {
+        setLoading(false);
+      }
+    };
+    void exec();
   };
 
   const handleSocialSignIn = () => {
@@ -63,12 +105,17 @@ export function SignInForm({ onSignIn }: SignInFormProps) {
             placeholder="Email"
             placeholderTextColor="#0E2235AA"
             keyboardType="email-address"
+            autoCapitalize="none"
+            value={email}
+            onChangeText={setEmail}
             style={styles.input}
           />
           <TextInput
             placeholder="Password"
             placeholderTextColor="#0E2235AA"
             secureTextEntry
+            value={password}
+            onChangeText={setPassword}
             style={[styles.input, { marginTop: 14 }]}
           />
 
@@ -78,8 +125,9 @@ export function SignInForm({ onSignIn }: SignInFormProps) {
             </TouchableOpacity>
           </Link>
 
-          <TouchableOpacity style={styles.primaryButton} activeOpacity={0.9} onPress={handleSignIn}>
-            <Text style={styles.primaryButtonText}>Sign In</Text>
+          {error ? <Text style={styles.errorText}>{error}</Text> : null}
+          <TouchableOpacity style={[styles.primaryButton, loading && styles.primaryButtonDisabled]} activeOpacity={0.9} onPress={handleSignIn} disabled={loading}>
+            <Text style={styles.primaryButtonText}>{loading ? "Signing In..." : "Sign In"}</Text>
           </TouchableOpacity>
         </View>
 
@@ -227,5 +275,14 @@ const styles = StyleSheet.create({
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
+  },
+  errorText: {
+    color: "#DC2626",
+    marginTop: 10,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+  primaryButtonDisabled: {
+    opacity: 0.7,
   },
 });

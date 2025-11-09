@@ -4,29 +4,29 @@ export const colors = {
   primary: '#4f46e5',
   primaryDark: '#3730a3',
   primaryLight: '#eef2ff',
-  
+
   // Secondary colors
   secondary: '#9333ea',
-  
+
   // Success colors
   success: '#10b981',
   successDark: '#0d9488',
   successLight: '#ecfdf5',
-  
+
   // Text colors
   textPrimary: '#0f172a',
   textSecondary: '#374151',
   textMuted: '#64748b',
-  
+
   // Background colors
   background: '#f8fafc',
   backgroundCard: '#ffffff',
   backgroundMuted: '#f1f5f9',
-  
+
   // Border colors
   border: '#e2e8f0',
   borderLight: '#c7d2fe',
-  
+
   // Status colors
   error: '#ef4444',
   warning: '#f59e0b',
